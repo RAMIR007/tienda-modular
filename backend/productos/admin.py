@@ -1,4 +1,9 @@
 from django.contrib import admin
-from .models import Producto
+from productos.models import Producto
 
-admin.site.register(Producto)
+
+class ProductoAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "precio")
+
+
+admin.site.register(Producto, ProductoAdmin)
