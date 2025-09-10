@@ -28,3 +28,12 @@
 ## Herramientas
 - `unittest` y `rest_framework.test.APIClient`
 - Se ejecutan con `python manage.py test`
+
+## Casos inválidos
+
+- No se permite crear productos, bloques o categorías duplicados
+- Se rechazan campos vacíos en formularios
+- El endpoint `/api/vale/` devuelve error 400 si faltan datos del cliente o productos
+- Se valida con `APIClient` y asserts específicos
+
+
