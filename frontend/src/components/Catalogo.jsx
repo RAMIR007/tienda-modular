@@ -1,21 +1,51 @@
 import { useEffect, useState } from 'react';
-import { api } from '../services/api';
+import { api, getCategorias } from '../services/api';
+import { CarritoContext } from '../context/CarritoContext';
 
 export default function Catalogo() {
   const [productos, setProductos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [orden, setOrden] = useState('precio');
 
   useEffect(() => {
+    getCategorias().then(({ data }) => setCategorias(data));
+  }, []);
+
+  useEffect(() => {
+    const params = {
+      ordering: orden,
+    };
+    if (categoriaSeleccionada) {
+      params.categorias = categoriaSeleccionada;
+    }
+
     api
-      .get('/productos/', { params: { ordering: orden } })
+      .get('/productos/', { params })
       .then(({ data }) => setProductos(data))
       .catch(err => console.error(err));
-  }, [orden]);
+  }, [orden, categoriaSeleccionada]);
 
   return (
     <div>
       <h2>Catálogo de Productos</h2>
+
       <label>
+        Categoría:{' '}
+        <select
+          value={categoriaSeleccionada}
+          onChange={e => setCategoriaSeleccionada(e.target.value)}
+        >
+          <option value="">Todas</option>
+          {categorias.map(cat => (
+            <option key={cat.id} value={cat.id}>
+              {cat.nombre}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label style={{ marginLeft: '1rem' }}>
         Ordenar por:{' '}
         <select value={orden} onChange={e => setOrden(e.target.value)}>
           <option value="precio">Precio</option>
@@ -23,7 +53,7 @@ export default function Catalogo() {
         </select>
       </label>
 
-      <ul>
+      <ul style={{ marginTop: '1rem' }}>
         {productos.map(p => (
           <li key={p.id}>
             <strong>{p.nombre}</strong> – ${p.precio}
@@ -33,3 +63,7 @@ export default function Catalogo() {
     </div>
   );
 }
+
+const { agregarProducto } = useContext(CarritoContext);
+
+<button onClick={() => agregarProducto(p)}>Agregar al carrito</button>
