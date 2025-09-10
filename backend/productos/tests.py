@@ -26,3 +26,15 @@ class ProductoAPITests(TestCase):
         response = self.client.post("/api/productos/", data, format="json")
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data["nombre"], "Taza")        
+        
+class ProductoUnicidadTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.producto = Producto.objects.create(nombre="Camisa", precio=10.00)
+
+    def test_producto_duplicado(self):
+        data = {"nombre": "Camisa", "precio": "12.00", "categorias": []}
+        response = self.client.post("/api/productos/", data, format="json")
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("nombre", response.data)
+        

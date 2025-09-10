@@ -4,12 +4,19 @@ from io import BytesIO
 import datetime
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response  # Importar Respon
 
 @api_view(['POST'])
 def generar_vale(request):
     data = JSONParser().parse(request)
     cliente = data.get('cliente', {})
     productos = data.get('productos', [])
+    
+    # Validaciones
+    if not cliente.get("nombre") or not cliente.get("telefono") or not cliente.get("direccion"):
+        return Response({"error": "Datos del cliente incompletos."}, status=400)
+    if not productos:
+        return Response({"error": "Debe incluir al menos un producto."}, status=400)
 
     buffer = BytesIO()
     p = canvas.Canvas(buffer)
@@ -38,4 +45,5 @@ def generar_vale(request):
     p.save()
 
     buffer.seek(0)
+    
     return HttpResponse(buffer, content_type='application/pdf')

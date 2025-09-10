@@ -20,3 +20,27 @@ class ValePDFTests(TestCase):
         response = self.client.post("/api/vale/", data, format="json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/pdf")
+
+class ValeDatosIncompletosTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+    def test_vale_sin_cliente(self):
+        data = {
+            "cliente": {},
+            "productos": [{"nombre": "Camisa", "precio": "15.00"}]
+        }
+        response = self.client.post("/api/vale/", data, format="json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_vale_sin_productos(self):
+        data = {
+            "cliente": {
+                "nombre": "Ramiro",
+                "telefono": "555-1234",
+                "direccion": "La Habana"
+            },
+            "productos": []
+        }
+        response = self.client.post("/api/vale/", data, format="json")
+        self.assertEqual(response.status_code, 400)
