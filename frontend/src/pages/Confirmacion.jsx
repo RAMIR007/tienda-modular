@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useContext, useState } from 'react';
+=======
+import { useContext, useState } from 'react';
+>>>>>>> eff8e9064fd1bea9b5df1b87686f8f8b6f24448a
 import { CarritoContext } from '../context/CarritoContext';
 
 export default function Confirmacion() {
@@ -8,13 +12,17 @@ export default function Confirmacion() {
     telefono: '',
     direccion: '',
   });
+<<<<<<< HEAD
   const [error, setError] = useState('');
+=======
+>>>>>>> eff8e9064fd1bea9b5df1b87686f8f8b6f24448a
 
   const handleChange = e =>
     setCliente({ ...cliente, [e.target.name]: e.target.value });
 
   const handleSubmit = e => {
     e.preventDefault();
+<<<<<<< HEAD
     if (!cliente.nombre || !cliente.telefono || !cliente.direccion) {
       setError('Por favor completa todos los campos');
       return;
@@ -22,6 +30,8 @@ export default function Confirmacion() {
 
     setError(''); // Limpiar error si la validación es exitosa
 
+=======
+>>>>>>> eff8e9064fd1bea9b5df1b87686f8f8b6f24448a
     const datos = {
       cliente,
       productos: carrito,
@@ -33,6 +43,7 @@ export default function Confirmacion() {
   return (
     <div>
       <h2>Confirmar compra</h2>
+<<<<<<< HEAD
       {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit} noValidate>
         <div>
@@ -68,6 +79,30 @@ export default function Confirmacion() {
             required
           />
         </div>
+=======
+      <form onSubmit={handleSubmit}>
+        <input
+          name="nombre"
+          placeholder="Nombre y apellidos"
+          value={cliente.nombre}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="telefono"
+          placeholder="Teléfono"
+          value={cliente.telefono}
+          onChange={handleChange}
+          required
+        />
+        <input
+          name="direccion"
+          placeholder="Dirección"
+          value={cliente.direccion}
+          onChange={handleChange}
+          required
+        />
+>>>>>>> eff8e9064fd1bea9b5df1b87686f8f8b6f24448a
         <button type="submit">Generar vale</button>
       </form>
     </div>

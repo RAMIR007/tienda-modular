@@ -1,9 +1,11 @@
 <<<<<<< Updated upstream
 import { useEffect, useState } from 'react';
-import { api } from '../services/api';
+import { api, getCategorias } from '../services/api';
+import { CarritoContext } from '../context/CarritoContext';
 
 export default function Catalogo() {
   const [productos, setProductos] = useState([]);
+<<<<<<< HEAD
 =======
 import React, { useContext, useEffect, useState } from 'react';
 import { api, getCategorias } from '../services/api';
@@ -15,16 +17,24 @@ export default function Catalogo() {
   const [categorias, setCategorias] = useState([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
 >>>>>>> Stashed changes
+=======
+  const [categorias, setCategorias] = useState([]);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
+>>>>>>> eff8e9064fd1bea9b5df1b87686f8f8b6f24448a
   const [orden, setOrden] = useState('precio');
   const [error, setError] = useState(null);
   const { agregarProducto } = useContext(CarritoContext);
 
   useEffect(() => {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
     getCategorias()
       .then(({ data }) => setCategorias(data))
       .catch(() => setError('No se pudieron cargar las categorías.'));
+=======
+    getCategorias().then(({ data }) => setCategorias(data));
+>>>>>>> eff8e9064fd1bea9b5df1b87686f8f8b6f24448a
   }, []);
 
   useEffect(() => {
@@ -35,26 +45,52 @@ export default function Catalogo() {
       params.categorias = categoriaSeleccionada;
     }
 
+<<<<<<< HEAD
     setError(null); // Limpiar errores anteriores al recargar
     setLoading(true);
 >>>>>>> Stashed changes
+=======
+>>>>>>> eff8e9064fd1bea9b5df1b87686f8f8b6f24448a
     api
-      .get('/productos/', { params: { ordering: orden } })
+      .get('/productos/', { params })
       .then(({ data }) => setProductos(data))
 <<<<<<< Updated upstream
       .catch(err => console.error(err));
+<<<<<<< HEAD
   }, [orden]);
 =======
       .catch(() => setError('No se pudieron cargar los productos.'))
       .finally(() => setLoading(false));
   }, [orden, categoriaSeleccionada]);
 >>>>>>> Stashed changes
+=======
+  }, [orden, categoriaSeleccionada]);
+>>>>>>> eff8e9064fd1bea9b5df1b87686f8f8b6f24448a
 
   return (
     <div>
       <h2>Catálogo de Productos</h2>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+
+>>>>>>> eff8e9064fd1bea9b5df1b87686f8f8b6f24448a
       <label>
+        Categoría:{' '}
+        <select
+          value={categoriaSeleccionada}
+          onChange={e => setCategoriaSeleccionada(e.target.value)}
+        >
+          <option value="">Todas</option>
+          {categorias.map(cat => (
+            <option key={cat.id} value={cat.id}>
+              {cat.nombre}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label style={{ marginLeft: '1rem' }}>
         Ordenar por:{' '}
         <select value={orden} onChange={e => setOrden(e.target.value)}>
           <option value="precio">Precio</option>
@@ -62,7 +98,7 @@ export default function Catalogo() {
         </select>
       </label>
 
-      <ul>
+      <ul style={{ marginTop: '1rem' }}>
         {productos.map(p => (
           <li key={p.id}>
             <strong>{p.nombre}</strong> – ${p.precio}
@@ -119,3 +155,7 @@ export default function Catalogo() {
     </div>
   );
 }
+
+const { agregarProducto } = useContext(CarritoContext);
+
+<button onClick={() => agregarProducto(p)}>Agregar al carrito</button>
