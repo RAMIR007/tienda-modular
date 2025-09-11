@@ -40,3 +40,23 @@
 .read-the-docs {
   color: #888;
 }
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+/* Ejemplo para tu archivo App.css o similar */
+.filtro-orden {
+  margin-left: 1rem;
+}
+
+.lista-productos {
+  margin-top: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.btn-agregar {
+  margin-left: 1rem;
+}

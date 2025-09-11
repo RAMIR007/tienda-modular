@@ -1,29 +1,37 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js';
+import pluginReactHooks from 'eslint-plugin-react-hooks';
+import pluginReactRefresh from 'eslint-plugin-react-refresh';
 
-export default defineConfig([
-  globalIgnores(['dist']),
+/** @type {import('eslint').Linter.FlatConfig[]} */
+export default [
+  { files: ['**/*.{js,mjs,cjs,jsx}'] },
+  { languageOptions: { globals: { ...globals.browser, ...globals.vitest } } },
+  pluginJs.configs.recommended,
   {
-    files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+    // Configuración específica para React
+    ...pluginReactConfig,
+    settings: {
+      react: {
+        version: 'detect', // Detecta automáticamente la versión de React
       },
     },
+  },
+  {
+    // Configuración para React Hooks
+    plugins: {
+      'react-hooks': pluginReactHooks,
+    },
+    rules: pluginReactHooks.configs.recommended.rules,
+  },
+  {
+    // Configuración para React Refresh (Vite)
+    plugins: {
+      'react-refresh': pluginReactRefresh,
+    },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'react-refresh/only-export-components': 'warn',
     },
   },
-])
+];
