@@ -48,9 +48,12 @@ describe('Catalogo', () => {
     );
   };
 
-  test('muestra el estado de carga inicialmente', () => {
+  test('muestra el estado de carga inicialmente', async () => {
     renderComponent();
     expect(screen.getByText('Cargando...')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText('Cargando...')).not.toBeInTheDocument();
+    });
   });
 
   test('muestra los productos después de una carga exitosa', async () => {
