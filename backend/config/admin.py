@@ -4,4 +4,4 @@ from productos.models import Producto
 
 admin.site.register(Bloque)
 admin.site.register(Categoria)
-admin.site.register(Producto)
+admin.site.register(Producto.ProductoAdmin)

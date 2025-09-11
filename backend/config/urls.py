@@ -20,12 +20,28 @@ from django.urls import path, include
 from rest_framework import routers
 from categorias.views import BloqueViewSet, CategoriaViewSet
 from productos.views import ProductoViewSet
+from rest_framework import permissions
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Tienda API",
+        default_version="v1",
+        description="API Description"
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 router = routers.DefaultRouter()
 router.register(r'bloques', BloqueViewSet)
 router.register(r'categorias', CategoriaViewSet)
 router.register(r'productos', ProductoViewSet)
 
 urlpatterns = [
+    path('swagger/', schema_view.with_ui('swagger')),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    
 ]
